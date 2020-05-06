@@ -43,10 +43,5 @@ class Memory {
 
 }
 
-module.exports = {
-    allocate,
-    free,
-    copy,
-    get,
-    set
-}
+module.exports = Memory;
+
