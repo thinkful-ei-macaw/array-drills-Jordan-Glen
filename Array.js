@@ -30,6 +30,24 @@ class Array {
         this._capacity = size;
     }
 
+    pop() {
+        if (this.length == 0) {
+            throw new Error('Index error');
+        }
+        const value = memory.get(this.ptr + this.length - 1);
+        this.length--;
+        return value;
+    }
+
+    // get(oldPtr){
+    //     if(oldPtr < 0 || oldPtr >= this.length){
+    //         throw new Error('Index error')
+    //     }
+    // }
+
+
+
+
 }
 
 Array.SIZE_RATIO = 3;

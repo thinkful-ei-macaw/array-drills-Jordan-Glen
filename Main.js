@@ -12,10 +12,16 @@ function main() {
     arr.push(19);
     arr.push(45);
     arr.push(10);
+    arr.pop()
+    arr.pop()
+    arr.pop()
+
 
     console.log(arr);
 
 }
 
 main();
+
+
 
