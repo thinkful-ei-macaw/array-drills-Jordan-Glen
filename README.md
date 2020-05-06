@@ -13,4 +13,6 @@ to point to memory address 3.
    After running pop() 3 times, it removed the items from the previous indexes at the end of the array which gave us a length of 3.
    Since capacity has not been exceeded, it still remains at 12 along with the current memory address of 3. 
 
-4. 
+4. NaN was the output. We instantiated memory with Float64Array() method which only accepts integers. The resize() function will take the current ptr position and hold it into a new variable. We call allocate() to find a new space to store the new ptr. Copy the new ptr position from the old ptr position, and add it's length. Call memory.free to free up old space. This.capacity = the new size. 
+
+5.

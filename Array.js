@@ -1,49 +1,72 @@
-const Memory = require('./Memory')
+const Memory = require('./Memory');
 const memory = new Memory();
 
 class Array {
 
 
-    constructor() {
-        this.length = 0;
-        this._capacity = 0;
-        this.ptr = memory.allocate(this.length);
+  constructor() {
+    this.length = 0;
+    this._capacity = 0;
+    this.ptr = memory.allocate(this.length);
 
+  }
+
+  push(value) {
+    if (this.length >= this._capacity) {
+      this._resize((this.length + 1) * Array.SIZE_RATIO);
+    }
+    memory.set(this.ptr + this.length, value);
+    this.length++;
+  }
+
+  _resize(size) {
+    const oldPtr = this.ptr; // hold variable to current pointer
+    this.ptr = memory.allocate(size);
+    if (this.ptr === null) {
+      throw new Error('Out of memory');
+    }
+    memory.copy(this.ptr, oldPtr, this.length);
+    memory.free(oldPtr);
+    this._capacity = size;
+  }
+
+  pop() {
+    if (this.length == 0) {
+      throw new Error('Index error');
+    }
+    const value = memory.get(this.ptr + this.length - 1);
+    this.length--;
+    return value;
+  }
+
+  get(index) {
+    if (index < 0 || index >= this.length) {
+      throw new Error('Index error');
+    }
+    return memory.get(this.ptr + index);
+  }
+
+  remove(index) {
+    if (index < 0 || index >= this.length) {
+      throw new Error('Index error');
+    }
+    memory.copy(this.ptr + index, this.ptr + index + 1, this.length - index - 1);
+    this.length--;
+  }
+
+  insert(index, value) {
+    if (index < 0 || index >= this.length) {
+      throw new Error('Index error');
     }
 
-    push(value) {
-        if (this.length >= this._capacity) {
-            this._resize((this.length + 1) * Array.SIZE_RATIO);
-        }
-        memory.set(this.ptr + this.length, value);
-        this.length++;
+    if (this.length >= this._capacity) {
+      this._resize((this.length + 1) * Array.SIZE_RATIO);
     }
 
-    _resize(size) {
-        const oldPtr = this.ptr;
-        this.ptr = memory.allocate(size);
-        if (this.ptr === null) {
-            throw new Error('Out of memory')
-        }
-        memory.copy(this.ptr, oldPtr, this.length)
-        memory.free(oldPtr);
-        this._capacity = size;
-    }
-
-    pop() {
-        if (this.length == 0) {
-            throw new Error('Index error');
-        }
-        const value = memory.get(this.ptr + this.length - 1);
-        this.length--;
-        return value;
-    }
-
-    // get(oldPtr){
-    //     if(oldPtr < 0 || oldPtr >= this.length){
-    //         throw new Error('Index error')
-    //     }
-    // }
+    memory.copy(this.ptr + index + 1, this.ptr + index, this.length - index);
+    memory.set(this.ptr + index, value);
+    this.length++;
+  }
 
 
 
