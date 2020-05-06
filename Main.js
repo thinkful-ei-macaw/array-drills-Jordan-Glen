@@ -15,7 +15,7 @@ function main() {
     arr.pop()
     arr.pop()
     arr.pop()
-
+    console.log(arr.get(0))
 
     console.log(arr);
 

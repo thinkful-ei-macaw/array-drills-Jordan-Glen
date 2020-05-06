@@ -39,6 +39,13 @@ class Array {
         return value;
     }
 
+    get(index) {
+        if (index < 0 || index >= this.length) {
+            throw new Error('Index error');
+        }
+        return memory.get(this.ptr + index);
+    }
+
     // get(oldPtr){
     //     if(oldPtr < 0 || oldPtr >= this.length){
     //         throw new Error('Index error')
