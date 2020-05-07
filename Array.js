@@ -1,4 +1,4 @@
-const Memory = require('./Memory')
+const Memory = require('./Memory');
 const memory = new Memory();
 
 class Array {
@@ -20,12 +20,12 @@ class Array {
     }
 
     _resize(size) {
-        const oldPtr = this.ptr;
+        const oldPtr = this.ptr; // hold variable to current pointer
         this.ptr = memory.allocate(size);
         if (this.ptr === null) {
-            throw new Error('Out of memory')
+            throw new Error('Out of memory');
         }
-        memory.copy(this.ptr, oldPtr, this.length)
+        memory.copy(this.ptr, oldPtr, this.length);
         memory.free(oldPtr);
         this._capacity = size;
     }
@@ -46,11 +46,27 @@ class Array {
         return memory.get(this.ptr + index);
     }
 
-    // get(oldPtr){
-    //     if(oldPtr < 0 || oldPtr >= this.length){
-    //         throw new Error('Index error')
-    //     }
-    // }
+    remove(index) {
+        if (index < 0 || index >= this.length) {
+            throw new Error('Index error');
+        }
+        memory.copy(this.ptr + index, this.ptr + index + 1, this.length - index - 1);
+        this.length--;
+    }
+
+    insert(index, value) {
+        if (index < 0 || index >= this.length) {
+            throw new Error('Index error');
+        }
+
+        if (this.length >= this._capacity) {
+            this._resize((this.length + 1) * Array.SIZE_RATIO);
+        }
+
+        memory.copy(this.ptr + index + 1, this.ptr + index, this.length - index);
+        memory.set(this.ptr + index, value);
+        this.length++;
+    }
 
 
 

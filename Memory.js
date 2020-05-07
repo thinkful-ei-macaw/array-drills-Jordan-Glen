@@ -16,8 +16,10 @@ class Memory {
         return start
     }
 
-    free(ptr) { }
 
+
+    free(ptr) { }
+    // (5, 6, 1)
     copy(toIdx, fromIdx, size) {
         if (fromIdx == toIdx) {
             return;
@@ -34,7 +36,7 @@ class Memory {
     }
 
     get(ptr) {
-        return this.memory[ptr]
+        return this.memory[ptr];
     }
 
     set(ptr, value) {
